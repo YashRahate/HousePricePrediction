@@ -24,4 +24,6 @@ def predic_home_price():
 
 if __name__ == '__main__':
     print("Starting python Flask Server ... ")
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    # Host on 0.0.0.0 to make it accessible externally
+    app.run(host='0.0.0.0', port=port)
