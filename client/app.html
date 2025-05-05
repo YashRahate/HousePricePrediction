@@ -1,53 +1,313 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Banglore Home Price Prediction</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangalore Home Price Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="app.js"></script>
-	<link rel="stylesheet" href="app.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .background {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            margin-top: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-field {
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            padding: 12px;
+            background-color: #f2f2f2;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+        .switch-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .switch-field input {
+            position: absolute !important;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            width: 1px;
+            border: 0;
+            overflow: hidden;
+        }
+        
+        .switch-field label {
+            background-color: #f2f2f2;
+            color: #555;
+            font-size: 14px;
+            text-align: center;
+            padding: 12px 16px;
+            flex: 1;
+            transition: all 0.2s ease-in-out;
+            border-right: 1px solid #ddd;
+            margin: 0;
+        }
+        
+        .switch-field label:last-of-type {
+            border-right: none;
+        }
+        
+        .switch-field label:hover {
+            cursor: pointer;
+            background-color: #e6e6e6;
+        }
+        
+        .switch-field input:checked + label {
+            background-color: #4CAF50;
+            color: #fff;
+            box-shadow: none;
+        }
+        
+        .btn-estimate {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-estimate:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-estimate:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .result {
+            background-color: #f0f4c3;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #33691e;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+        }
+        
+        .result.show {
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .switch-field label {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="img"></div>
-<form class="form">
-	<h2>Area (Square Feet)</h2>
-    <input class="area"  type="text" id="uiSqft" class="floatLabel" name="Squareft" value="1000">
-	<h2>BHK</h2>
-	<div class="switch-field">
-		<input type="radio" id="radio-bhk-1" name="uiBHK" value="1"/>
-		<label for="radio-bhk-1">1</label>
-		<input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked/>
-		<label for="radio-bhk-2">2</label>
-		<input type="radio" id="radio-bhk-3" name="uiBHK" value="3"/>
-		<label for="radio-bhk-3">3</label>
-		<input type="radio" id="radio-bhk-4" name="uiBHK" value="4"/>
-		<label for="radio-bhk-4">4</label>
-		<input type="radio" id="radio-bhk-5" name="uiBHK" value="5"/>
-		<label for="radio-bhk-5">5</label>
-	</div>
-	</form>
-<form class="form">
-	<h2>Bath</h2>
-	<div class="switch-field">
-		<input type="radio" id="radio-bath-1" name="uiBathrooms" value="1"/>
-		<label for="radio-bath-1">1</label>
-		<input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked/>
-		<label for="radio-bath-2">2</label>
-		<input type="radio" id="radio-bath-3" name="uiBathrooms" value="3"/>
-		<label for="radio-bath-3">3</label>
-		<input type="radio" id="radio-bath-4" name="uiBathrooms" value="4"/>
-		<label for="radio-bath-4">4</label>
-		<input type="radio" id="radio-bath-5" name="uiBathrooms" value="5"/>
-		<label for="radio-bath-5">5</label>
-	</div>
-		<h2>Location</h2>
-	<div>
-  <select class="location" name="" id="uiLocations">
-    <option value="" disabled="disabled" selected="selected">Choose a Location</option>
-		<option>Electronic City</option>
-        <option>Rajaji Nagar</option>
-  </select>
-</div>
-	<button class="submit" onclick="onClickedEstimatePrice()" type="button">Estimate Price</button>
-	<div id="uiEstimatedPrice" class="result">	<h2></h2> </div>
+    <div class="background"></div>
+    <div class="container">
+        <h1>Bangalore Home Price Prediction</h1>
+        <div class="card">
+            <div class="form-group">
+                <h2>Area (Square Feet)</h2>
+                <input class="input-field" type="number" id="uiSqft" name="Squareft" value="1000" min="100">
+            </div>
+            
+            <div class="form-group">
+                <h2>BHK (Bedrooms)</h2>
+                <div class="switch-field">
+                    <input type="radio" id="radio-bhk-1" name="uiBHK" value="1"/>
+                    <label for="radio-bhk-1">1</label>
+                    <input type="radio" id="radio-bhk-2" name="uiBHK" value="2" checked/>
+                    <label for="radio-bhk-2">2</label>
+                    <input type="radio" id="radio-bhk-3" name="uiBHK" value="3"/>
+                    <label for="radio-bhk-3">3</label>
+                    <input type="radio" id="radio-bhk-4" name="uiBHK" value="4"/>
+                    <label for="radio-bhk-4">4</label>
+                    <input type="radio" id="radio-bhk-5" name="uiBHK" value="5"/>
+                    <label for="radio-bhk-5">5</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <h2>Bathrooms</h2>
+                <div class="switch-field">
+                    <input type="radio" id="radio-bath-1" name="uiBathrooms" value="1"/>
+                    <label for="radio-bath-1">1</label>
+                    <input type="radio" id="radio-bath-2" name="uiBathrooms" value="2" checked/>
+                    <label for="radio-bath-2">2</label>
+                    <input type="radio" id="radio-bath-3" name="uiBathrooms" value="3"/>
+                    <label for="radio-bath-3">3</label>
+                    <input type="radio" id="radio-bath-4" name="uiBathrooms" value="4"/>
+                    <label for="radio-bath-4">4</label>
+                    <input type="radio" id="radio-bath-5" name="uiBathrooms" value="5"/>
+                    <label for="radio-bath-5">5</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <h2>Location</h2>
+                <select class="input-field" id="uiLocations">
+                    <option value="" disabled="disabled" selected="selected">Choose a Location</option>
+                    <option>Electronic City</option>
+                    <option>Rajaji Nagar</option>
+                </select>
+            </div>
+            
+            <button class="btn-estimate" onclick="onClickedEstimatePrice()" type="button">Estimate Price</button>
+            
+            <div id="uiEstimatedPrice" class="result">
+                <h2>Your estimated price will appear here</h2>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // This script enhances the user experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure location dropdown is not empty
+            document.getElementById('uiLocations').addEventListener('change', function() {
+                if (this.value) {
+                    this.style.borderColor = '#4CAF50';
+                }
+            });
+
+            // Show animation when result is updated
+            function updateEstimatedPrice(price) {
+                const resultDiv = document.getElementById('uiEstimatedPrice');
+                resultDiv.innerHTML = `<h2>${price}</h2>`;
+                resultDiv.classList.remove('show');
+                void resultDiv.offsetWidth; // Trigger reflow
+                resultDiv.classList.add('show');
+            }
+
+            // Override the original onClickedEstimatePrice function if it exists
+            if (typeof window.onClickedEstimatePrice === 'function') {
+                const originalFunction = window.onClickedEstimatePrice;
+                window.onClickedEstimatePrice = function() {
+                    // Validate inputs
+                    const sqft = document.getElementById('uiSqft').value;
+                    const location = document.getElementById('uiLocations').value;
+                    
+                    if (!sqft || sqft <= 0) {
+                        alert('Please enter a valid area');
+                        return;
+                    }
+                    
+                    if (!location) {
+                        alert('Please select a location');
+                        return;
+                    }
+                    
+                    // Call the original function
+                    originalFunction();
+                    
+                    // Add animation
+                    document.getElementById('uiEstimatedPrice').classList.add('show');
+                };
+            }
+        });
+    </script>
 </body>
 </html>
