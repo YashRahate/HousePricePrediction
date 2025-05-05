@@ -284,6 +284,23 @@
             padding-right: 45px;
         }
         
+        /* Styling for dropdown options */
+        select.input-field option {
+            background-color: #1c1c2e;
+            color: #fff;
+            padding: 12px;
+        }
+        
+        /* For IE and Edge */
+        select::-ms-expand {
+            display: none;
+        }
+        
+        /* Styling for dropdown when opened */
+        select.input-field:focus {
+            border-color: #ff4e50;
+        }
+        
         /* Input Number Styling */
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
