@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
         
         * {
             margin: 0;
@@ -17,13 +17,14 @@
         
         body, html {
             height: 100%;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             color: #333;
-            background-color: #f8f9fa;
+            background-color: #0c0c14;
+            overflow-x: hidden;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
@@ -31,7 +32,7 @@
         }
         
         .background {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%), 
                         url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-repeat: no-repeat;
             background-size: cover;
@@ -42,51 +43,104 @@
             top: 0;
             left: 0;
             z-index: -1;
+            filter: saturate(1.2) contrast(1.1);
+        }
+        
+        .glass-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+            border-radius: 15px;
         }
         
         .card {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
+            background-color: rgba(20, 20, 35, 0.75);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             margin-top: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
+            pointer-events: none;
         }
         
         h1 {
             text-align: center;
             color: #fff;
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 42px;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff4e50, #f9d423);
+            border-radius: 3px;
         }
         
         h2 {
             font-size: 18px;
-            margin-bottom: 10px;
-            color: #2c3e50;
-            font-weight: 600;
+            margin-bottom: 12px;
+            color: #e0e0e0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
         
         .input-field {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             width: 100%;
-            padding: 12px;
-            background-color: #f2f2f2;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 14px 16px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s ease;
+            color: #fff;
         }
         
         .input-field:focus {
             outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            border-color: #ff4e50;
+            box-shadow: 0 0 0 3px rgba(255, 78, 80, 0.3);
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
         
         .switch-field {
@@ -94,8 +148,9 @@
             justify-content: space-between;
             margin-bottom: 20px;
             overflow: hidden;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
         }
         
         .switch-field input {
@@ -108,15 +163,16 @@
         }
         
         .switch-field label {
-            background-color: #f2f2f2;
-            color: #555;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
             text-align: center;
-            padding: 12px 16px;
+            padding: 14px 16px;
             flex: 1;
-            transition: all 0.2s ease-in-out;
-            border-right: 1px solid #ddd;
+            transition: all 0.25s ease-in-out;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             margin: 0;
+            font-weight: 500;
         }
         
         .switch-field label:last-of-type {
@@ -125,58 +181,83 @@
         
         .switch-field label:hover {
             cursor: pointer;
-            background-color: #e6e6e6;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
         }
         
         .switch-field input:checked + label {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
             color: #fff;
-            box-shadow: none;
+            box-shadow: 0 0 10px rgba(255, 78, 80, 0.5);
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         .btn-estimate {
             width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            margin-top: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(255, 78, 80, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-estimate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-estimate:hover::before {
+            left: 100%;
         }
         
         .btn-estimate:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 78, 80, 0.6);
         }
         
         .btn-estimate:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(255, 78, 80, 0.5);
         }
         
         .result {
-            background-color: #f0f4c3;
-            padding: 15px;
-            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(249, 212, 35, 0.2), rgba(255, 78, 80, 0.2));
+            padding: 25px;
+            border-radius: 10px;
             text-align: center;
-            margin-top: 20px;
-            font-size: 18px;
+            margin-top: 30px;
+            font-size: 20px;
             font-weight: 600;
-            color: #33691e;
-            transition: all 0.3s ease;
+            color: #fff;
+            transition: all 0.4s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 60px;
+            min-height: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         
         .result.show {
-            animation: fadeIn 0.5s;
+            animation: pulseGlow 1.5s infinite alternate;
         }
         
         @keyframes fadeIn {
@@ -184,34 +265,181 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 78, 80, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 78, 80, 0.8), inset 0 0 25px rgba(255, 255, 255, 0.1);
+            }
+        }
+        
+        /* Custom Select Styling */
+        select.input-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+        
+        /* Input Number Styling */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        
+        /* Custom Number Controls */
+        .number-input-wrapper {
+            position: relative;
+        }
+        
+        .number-controls {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            height: 60%;
+        }
+        
+        .number-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 2px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+            margin: 2px 0;
+        }
+        
+        .number-control:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        
+        /* Responsive Styles */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
             }
             
             .card {
-                padding: 20px;
+                padding: 25px;
             }
             
             h1 {
-                font-size: 28px;
+                font-size: 32px;
             }
             
             .switch-field label {
-                padding: 10px 8px;
-                font-size: 12px;
+                padding: 12px 10px;
+                font-size: 13px;
+            }
+            
+            .result {
+                padding: 20px;
+                font-size: 18px;
+            }
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .animated-bg:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(20, 20, 35, 0.9) 0%, rgba(0, 0, 0, 0.85) 100%);
+        }
+        
+        .light {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(#ff4e50, transparent 70%);
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .light:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+        
+        .light:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            background: radial-gradient(#f9d423, transparent 70%);
+            animation-delay: -5s;
+        }
+        
+        .light:nth-child(3) {
+            top: 80%;
+            left: 10%;
+            background: radial-gradient(#4A00E0, transparent 70%);
+            animation-delay: -10s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(50px, 50px);
+            }
+            50% {
+                transform: translate(100px, -50px);
+            }
+            75% {
+                transform: translate(-50px, 50px);
             }
         }
     </style>
 </head>
 <body>
+    <div class="animated-bg">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+    </div>
     <div class="background"></div>
     <div class="container">
         <h1>House Price Prediction</h1>
         <div class="card">
+            <div class="glass-effect"></div>
             <div class="form-group">
                 <h2>Area (Square Feet)</h2>
-                <input class="input-field" type="number" id="uiSqft" name="Squareft" value="1000" min="100">
+                <div class="number-input-wrapper">
+                    <input class="input-field" type="number" id="uiSqft" name="Squareft" value="1000" min="100">
+                    <div class="number-controls">
+                        <button class="number-control" onclick="document.getElementById('uiSqft').stepUp(100)">+</button>
+                        <button class="number-control" onclick="document.getElementById('uiSqft').stepDown(100)">−</button>
+                    </div>
+                </div>
             </div>
             
             <div class="form-group">
@@ -269,7 +497,7 @@
             // Make sure location dropdown is not empty
             document.getElementById('uiLocations').addEventListener('change', function() {
                 if (this.value) {
-                    this.style.borderColor = '#4CAF50';
+                    this.style.borderColor = '#ff4e50';
                 }
             });
 
